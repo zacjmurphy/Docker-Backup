@@ -1,0 +1,73 @@
+name: monitor
+services:
+  ### Container Management ###
+  Portainer:
+    image: portainer/portainer-ce:latest
+    container_name: Portainer
+    network_mode: bridge
+    restart: always
+    ports:
+      - 9443:9443
+    environment:
+      - TZ=${Device_Timezone}
+      - PUID=${Device_UserID}
+      - PGID=${Device_GroupID}
+    volumes:
+      - /home/zach/docker/config/Portainer:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  ### Cloudflare Tunnel ###
+  Cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: Cloudflared
+    network_mode: bridge
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run --token ${Cloudflared_Token}
+
+  ### Log Management ###
+  Dozzle:
+    image: amir20/dozzle:latest
+    container_name: Dozzle
+    network_mode: bridge
+    restart: unless-stopped
+    ports:
+      - 9998:8080
+    environment:
+      - TZ=${Device_Timezone}
+      - PUID=${Device_UserID}
+      - PGID=${Device_GroupID}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  ### Plex Monitor ###
+  Tautulli:
+    image: ghcr.io/tautulli/tautulli
+    container_name: Tautulli
+    network_mode: bridge
+    restart: unless-stopped
+    ports:
+      - 8181:8181
+    environment:
+      - TZ=${Device_Timezone}
+      - PUID=${Device_UserID}
+      - PGID=${Device_GroupID}
+    volumes:
+      - /home/zach/docker/config/Tautulli:/config
+
+  ### Container Monitor ###
+  WatchTower:
+    image: containrrr/watchtower:latest
+    container_name: WatchTower
+    network_mode: bridge
+    restart: unless-stopped
+    environment:
+      - TZ=${Device_Timezone}
+      - PUID=${Device_UserID}
+      - PGID=${Device_GroupID}
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_LOG_LEVEL=info
+      - WATCHTOWER_SCHEDULE=0 0 4 * * *
+      - WATCHTOWER_INCLUDE_RESTARTING=true
+      - WATCHTOWER_NOTIFICATION_REPORT=false
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock

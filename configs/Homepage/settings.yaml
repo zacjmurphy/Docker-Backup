@@ -1,0 +1,61 @@
+title: MurphyServer
+theme: dark
+color: slate
+background:
+  image: /images/Background.png
+  blur: sm
+  saturate: 50
+  brightness: 50
+  opacity: 50
+
+layout:
+  Calendars:
+    tab: Multimedia Management
+    header: true
+    headerStyle: boxed
+    disableCollapse: false
+    useEqualHeights: true
+    fiveColumns: true
+    style: row
+    columns: 5
+  Media Services:
+    tab: Multimedia Management
+    header: true
+    headerStyle: boxed
+    disableCollapse: false
+    useEqualHeights: true
+    style: row
+    columns: 3
+  Arrs Services:
+    tab: Multimedia Management
+    header: true
+    headerStyle: boxed
+    disableCollapse: false
+    useEqualHeights: true
+    style: row
+    columns: 3
+  Statistics:
+    tab: Utilties & Services
+    header: true
+    headerStyle: boxed
+    disableCollapse: false
+    useEqualHeights: true
+    style: row
+    columns: 2
+  Monitoring:
+    tab: Utilties & Services
+    header: true
+    headerStyle: boxed
+    disableCollapse: false
+    useEqualHeights: true
+    style: row
+    columns: 3
+  Management:
+    tab: Utilties & Services
+    header: false
+    headerStyle: boxed
+    disableCollapse: true
+    useEqualHeights: true
+    fiveColumns: true
+    style: row
+    columns: 3

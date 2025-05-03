@@ -1,0 +1,57 @@
+name: services
+services:
+  ### Plex Media Server ###
+  Plex:
+    image: lscr.io/linuxserver/plex:latest
+    container_name: Plex
+    network_mode: host
+    restart: unless-stopped
+    environment:
+      - VERSION=docker
+      - TZ=${Device_Timezone}
+      - PUID=${Device_UserID}
+      - PGID=${Device_GroupID}
+      - PLEX_CLAIM=${Plex_ClaimToken}
+    volumes:
+      - /mnt/Drive16/Shows:/data/tv
+      - /mnt/Drive16/Music:/data/music
+      - /mnt/Drive16/Movies:/data/movies
+      - /home/zach/docker/config/Plex:/config
+      - /mnt/Drive16/Pre-Rolls:/data/pre-rolls
+    devices:
+      - /dev/dri:/dev/dri
+
+  ### Password Manager ###
+  VaultWarden:
+    image: vaultwarden/server:latest
+    container_name: VaultWarden
+    network_mode: host
+    restart: unless-stopped
+    environment:
+      - DOMAIN=${VaultWarden_Domain}
+      - ROCKET_PORT=${VaultWarden_Port}
+      - ADMIN_TOKEN=${VaultWarden_AdminToken}
+      - ICON_SERVICE=${VaultWarden_IconService}
+      - SIGNUPS_ALLOWED=${VaultWarden_Register}
+      - WEB_VAULT_ENABLED=${VaultWarden_WebVault}
+      - DISABLE_ICON_DOWNLOAD=${VaultWarden_DisableIcon}
+      - EMERGENCY_ACCESS_ALLOWED=${VaultWarden_EmergencyAccess}
+    volumes:
+      - /home/zach/docker/config/VaultWarden/:/data/
+
+  ### Git Platform ###
+  Forgejo:
+    image: codeberg.org/forgejo/forgejo:10
+    container_name: Forgejo
+    network_mode: bridge
+    restart: unless-stopped
+    ports:
+      - 222:22
+      - 3000:3000
+    environment:
+      - USER_UID=${Device_UserID}
+      - USER_GID=${Device_GroupID}
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /home/zach/docker/config/Forgejo:/data

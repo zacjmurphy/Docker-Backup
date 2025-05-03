@@ -1,0 +1,247 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Kometa-Team/Kometa/nightly/json-schema/config-schema.json
+
+libraries:
+  Movies operations:
+    library_name: Movies
+    schedule: daily
+    operations:
+      assets_for_all: true
+      mass_imdb_parental_labels: none
+      mass_audience_rating_update: imdb
+      mass_critic_rating_update: imdb
+      mass_user_rating_update: imdb
+
+  Movies metadata:
+    library_name: Movies
+    schedule: daily
+    collection_files:
+    - default: based
+      template_variables:
+        minimum_items: 2
+    - default: basic
+      template_variables:
+        minimum_items: 2
+    - default: decade
+      template_variables:
+        minimum_items: 2
+    - default: franchise
+      template_variables:
+        collection_mode: show_items
+        collection_order: release
+        minimum_items: 2
+    - default: imdb
+      template_variables:
+        collection_mode: show_items
+        collection_order: release
+        minimum_items: 2
+    - default: seasonal
+      template_variables:
+        trakt_list_christmas:
+        - https://trakt.tv/users/movistapp/lists/christmas-movies
+        - https://trakt.tv/users/questdvd/lists/absolute-hayes-christmas-classics
+        - https://trakt.tv/users/littlestella3/lists/christmas
+        - https://trakt.tv/users/mzdiobolik/lists/hallmark-christmas-movies
+        mdblist_list_christmas:
+        - https://mdblist.com/lists/abs3nt/christmas-movies
+    - default: studio
+      template_variables:
+        minimum_items: 4
+    - default: subtitle_language
+      template_variables:
+        include:
+        - nl
+        - en
+        sort_by: title.asc
+        use_other: false
+        use_separator: false
+        sep_style: purple
+    - default: universe
+      template_variables:
+        minimum_items: 2
+
+  Movies overlay:
+    library_name: Movies
+    schedule: weekly(sunday)
+    remove_overlays: false
+    reapply_overlays: false
+    overlay_files:
+    - default: resolution
+      template_variables:
+        use_edition: false
+        back_height: 85
+        back_radius: 30
+        back_width: 1100
+        horizontal_align: center
+        horizontal_offset: 0
+        vertical_align: top
+        vertical_offset: 0
+
+  TV Shows operations:
+    library_name: TV Shows
+    schedule: daily
+    operations:
+      assets_for_all: true
+      mass_imdb_parental_labels: none
+      mass_audience_rating_update: imdb
+      mass_critic_rating_update: imdb
+      mass_episode_critic_rating_update: imdb
+      mass_episode_audience_rating_update: imdb
+      mass_episode_user_rating_update: imdb
+      mass_user_rating_update: imdb
+
+  TV Shows metadata:
+    library_name: TV Shows
+    schedule: daily
+    collection_files:
+    - file: config/collections/tv_unwatched.yml
+    - default: based
+    - default: basic
+    - default: decade
+    - default: franchise
+      template_variables:
+        collection_mode: show_items
+        collection_order: release
+        minimum_items: 2
+    - default: imdb
+    - default: studio
+      template_variables:
+        minimum_items: 4
+    - default: subtitle_language
+      template_variables:
+        include:
+        - nl
+        - en
+        sort_by: title.asc
+        use_other: false
+        use_separator: false
+        sep_style: purple
+    - default: universe
+
+  TV Shows overlay:
+    library_name: TV Shows
+    schedule: weekly(sunday)
+    remove_overlays: false
+    reapply_overlays: false
+    overlay_files:
+    - default: audio_codec
+      template_variables:
+        builder_level: episode
+        back_height: 85
+        horizontal_align: right
+        horizontal_offset: 175
+        vertical_align: top
+    - default: status
+      template_variables:
+        back_color_airing: '#4a95f0AA'
+        back_color_canceled: '#ed1f1fAA'
+        back_color_ended: '#27c24bAA'
+        back_color_returning: '#81007FAA'
+        back_height: 85
+        back_width: 1100
+        back_radius: 30
+        horizontal_align: center
+        horizontal_offset: 0
+        vertical_align: top
+        vertical_offset: 0
+        font_size: 60
+    - default: resolution
+      template_variables:
+        builder_level: episode
+        back_height: 85
+        horizontal_align: right
+        horizontal_offset: 500
+        vertical_align: top
+
+playlist_files:
+- default: playlist
+  template_variables:
+    trakt_list_xmen: https://trakt.tv/users/donxy/lists/x-men-universe
+    libraries:
+    - Movies operations
+    - TV Shows operations
+- file: config/playlists.yml
+
+settings:
+  ignore_ids:
+  cache: true
+  cache_expiration: 60
+  show_missing_assets: true
+  asset_directory: /assets
+  asset_folders: true
+  asset_depth: 0
+  create_asset_folders: false
+  prioritize_assets: true
+  dimensional_asset_rename: false
+  download_url_assets: true
+  show_missing_season_assets: true
+  show_missing_episode_assets: true
+  show_asset_not_needed: true
+  sync_mode: append
+  minimum_items: 1
+  default_collection_order:
+  delete_below_minimum: true
+  delete_not_scheduled: false
+  run_again_delay: 2
+  missing_only_released: false
+  only_filter_missing: false
+  show_unmanaged: true
+  show_unconfigured: true
+  show_filtered: false
+  show_options: false
+  show_missing: false
+  save_report: false
+  tvdb_language: eng
+  ignore_imdb_ids:
+  item_refresh_delay: 0
+  playlist_exclude_users:
+  playlist_report: false
+  verify_ssl: true
+  custom_repo:
+  run_order:
+  - operations
+  - metadata
+  - collections
+  - overlays
+
+  show_unfiltered: false
+  playlist_sync_to_users:
+  overlay_artwork_filetype: webp_lossy
+  overlay_artwork_quality: 90
+webhooks:
+  error:
+  version:
+  run_start:
+  run_end:
+  changes:
+  delete:
+
+plex:
+  url: http://<DEVICE IP>:32400
+  token: <PLEX TOKEN>
+  timeout: 60
+  db_cache: 10240
+  clean_bundles: false
+  empty_trash: false
+  optimize: false
+  verify_ssl: false
+
+tmdb:
+  apikey: <TMDB API KEY>
+  language: en
+  cache_expiration: 60
+  region: ''
+
+notifiarr:
+  apikey: '<NOTIFIARR API KEY>'
+
+trakt:
+  client_id: '<TRAKT CLIENT ID>'
+  client_secret: '<TRAKT CLIENT SECRET>'
+  authorization:
+    access_token:
+    token_type:
+    expires_in:
+    refresh_token:
+    scope:
+    created_at:
+  pin: <TRAKT AUTHORIZATION PIN>

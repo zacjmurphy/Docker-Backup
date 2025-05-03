@@ -1,0 +1,9 @@
+{
+    "recommendations": [
+        "redhat.vscode-yaml",
+        "usernamehw.errorlens",
+        "pkief.material-icon-theme",
+        "editorconfig.editorconfig",
+        "christian-kohler.path-intellisense"
+    ]
+}
