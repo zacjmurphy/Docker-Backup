@@ -57,43 +57,43 @@ discord:
   # Discord Webhook:
   # Use Discord's webhook
   # Channel ID not used
-  notifiarr_webhook: <NOTIFIARR WEBHOOK>
+  notifiarr_webhook:
   # Main is used for version notifications
   main:
     discord_webhook:
-    channel_id: <CHANNEL ID>
+    channel_id:
   renameinatorr:
     # Will notify items that have been renamed
     discord_webhook:
-    channel_id: <CHANNEL ID>
+    channel_id:
   upgradinatorr:
     # Will notify if an upgrade has been found
     discord_webhook:
-    channel_id: <CHANNEL ID>
+    channel_id:
   poster_renamerr:
     # Note: It is recommended for a fresh run to not use a notifications channel, as it will spam the channel with all the matched assets
     discord_webhook:
-    channel_id: <CHANNEL ID>
+    channel_id:
   nohl:
     # Will notify if non-hardlinked files are found/searched for
     discord_webhook:
-    channel_id: <CHANNEL ID>
+    channel_id:
   queinatorr:
     # Will notify if a torrent/queue item has been handled
     discord_webhook:
-    channel_id: <CHANNEL ID>
+    channel_id:
   labelarr:
     # Will notify if a label has been added/removed to a movie or series
     discord_webhook:
-    channel_id: <CHANNEL ID>
+    channel_id:
   nohl_bash:
     # Will notify if a non-hardlinked file has been found
     discord_webhook:
-    channel_id: <CHANNEL ID>
+    channel_id:
   jduparr:
     # Will notify if a duplicate file has been found and relinked
     discord_webhook:
-    channel_id: <CHANNEL ID>
+    channel_id:
 
 sync_gdrive:
   # THIS SCRIPT SYNCS GDRIVE TO A LOCAL FOLDER. ANYTHING UNIQUE IN THE FOLDER WILL BE DELETED.

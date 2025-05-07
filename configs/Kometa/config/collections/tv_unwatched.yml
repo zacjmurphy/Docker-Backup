@@ -1,7 +1,0 @@
-collections:
-  Unwatched TV:
-    builder_level: episode
-    smart_filter:
-      all:
-        episode_unplayed: true
-      sort_by: episode_release.asc
