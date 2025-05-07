@@ -1,5 +1,10 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/Kometa-Team/Kometa/nightly/json-schema/config-schema.json
 
+#==================== KOMETA ====================#
+
+### We highly recommend using Visual Studio Code with indent-rainbow by oderwat extension and YAML by Red Hat extension. VSC will also leverage the above link to enhance Kometa yml edits.
+
+#==================== Libraries ====================#
 libraries:
   Movies operations:
     library_name: Movies
@@ -152,6 +157,7 @@ libraries:
         horizontal_offset: 500
         vertical_align: top
 
+#==================== Playlists ====================#
 playlist_files:
 - default: playlist
   template_variables:
@@ -161,6 +167,7 @@ playlist_files:
     - TV Shows operations
 - file: config/playlists.yml
 
+#==================== Settings ====================#
 settings:
   ignore_ids:
   cache: true
@@ -215,6 +222,7 @@ webhooks:
   changes:
   delete:
 
+#==================== Plex ====================#
 plex:
   url: http://<DEVICE IP>:32400
   token: <PLEX TOKEN>
@@ -225,15 +233,14 @@ plex:
   optimize: false
   verify_ssl: false
 
+#==================== TMDb ====================#
 tmdb:
   apikey: <TMDB API KEY>
   language: en
   cache_expiration: 60
   region: ''
 
-notifiarr:
-  apikey: '<NOTIFIARR API KEY>'
-
+#==================== Trakt ====================#
 trakt:
   client_id: '<TRAKT CLIENT ID>'
   client_secret: '<TRAKT CLIENT SECRET>'
