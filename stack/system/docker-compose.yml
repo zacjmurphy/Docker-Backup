@@ -1,0 +1,71 @@
+name: system
+services:
+  ### --- Container - Management --- ###
+  Portainer:
+    image: portainer/portainer-ce:latest
+    container_name: Portainer
+    network_mode: bridge
+    restart: always
+    ports:
+      - 9443:9443
+    environment:
+      - TZ=${Device_Timezone}
+      - PUID=${Device_UserID}
+      - PGID=${Device_GroupID}
+    volumes:
+      - /home/zach/docker/config/Portainer:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  ### --- Docker Stack - Management --- ###
+  Dockge:
+    image: louislam/dockge:1
+    container_name: Dockge
+    network_mode: bridge
+    restart: unless-stopped
+    user: 1000:1000
+    ports:
+      - 5001:5001
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /home/zach/docker/config/Dockge:/app/data
+      - /home/zach/docker/stacks:/home/zach/docker/stacks
+    environment:
+      - "DOCKGE_STACKS_DIR=/home/zach/docker/stacks"
+
+  ### --- System - Monitor --- ###
+  Glances:
+    image: nicolargo/glances:latest
+    container_name: Glances
+    network_mode: bridge
+    restart: unless-stopped
+    pid: host
+    ports:
+      - 61208-61209:61208-61209
+    environment:
+      - GLANCES_OPT="-w"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /run/user/1000/podman/podman.sock:/run/user/1000/podman/podman.sock:ro
+
+  ### --- Cloudflare - Tunnel --- ###
+  Cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: Cloudflared
+    network_mode: bridge
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run --token ${Cloudflared_Token}
+
+  ### --- Container Log - Monitor --- ###
+  Dozzle:
+    image: amir20/dozzle:latest
+    container_name: Dozzle
+    network_mode: bridge
+    restart: unless-stopped
+    ports:
+      - 9998:8080
+    environment:
+      - TZ=${Device_Timezone}
+      - PUID=${Device_UserID}
+      - PGID=${Device_GroupID}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock

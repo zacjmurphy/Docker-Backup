@@ -1,6 +1,6 @@
 name: vpn
 services:
-  ### Virtual Private Network ###
+  ### --- Virtual Private Network --- ###
   vpn:
     image: qmcgaw/gluetun:latest
     container_name: vpn
@@ -14,6 +14,7 @@ services:
       - 8989:8989 # Sonarr
       - 7878:7878 # Radarr
       - 6767:6767 # Bazarr
+      - 5055:5055 # Jellyseerr
       - 8191:8191 # FlareSolverr
       - 8080:8080 # qBittorrent (Web UI)
       - 6881:6881 # qBittorrent (Torrent)
@@ -32,7 +33,19 @@ services:
     devices:
       - /dev/net/tun:/dev/net/tun
 
-  ### Indexer Management ###
+  ### --- Movie / TV Shows - Request Management --- ###
+  Jellyseerr:
+    image: ghcr.io/fallenbagel/jellyseerr:latest
+    container_name: Jellyseerr
+    network_mode: "service:vpn"
+    restart: unless-stopped
+    environment:
+      - LOG_LEVEL=debug
+      - TZ=${Device_Timezone}
+    volumes:
+      - /home/zach/docker/config/Jellyseerr:/app/config
+
+  ### --- Indexer - Management --- ###
   Prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: Prowlarr
@@ -45,7 +58,7 @@ services:
     volumes:
       - /home/zach/docker/config/Prowlarr:/config
 
-  ### TV Show Management ###
+  ### --- TV Show - Management --- ###
   Sonarr:
     image: lscr.io/linuxserver/sonarr:latest
     container_name: Sonarr
@@ -56,11 +69,11 @@ services:
       - PUID=${Device_UserID}
       - PGID=${Device_GroupID}
     volumes:
-      - /mnt/Drive16/Shows:/tv
-      - /mnt/Drive16/Downloads:/downloads
+      - /mnt/Drive20/Shows:/tv
+      - /mnt/Drive20/Downloads:/downloads
       - /home/zach/docker/config/Sonarr:/config
 
-  ### Movie Management ###
+  ### --- Movie - Management --- ###
   Radarr:
     image: lscr.io/linuxserver/radarr:latest
     container_name: Radarr
@@ -71,11 +84,11 @@ services:
       - PUID=${Device_UserID}
       - PGID=${Device_GroupID}
     volumes:
-      - /mnt/Drive16/Movies:/movies
-      - /mnt/Drive16/Downloads:/downloads
+      - /mnt/Drive20/Movies:/movies
+      - /mnt/Drive20/Downloads:/downloads
       - /home/zach/docker/config/Radarr:/config
 
-  ### Subtitle Management ###
+  ### --- Subtitle - Management --- ###
   Bazarr:
     image: lscr.io/linuxserver/bazarr:latest
     container_name: Bazarr
@@ -86,11 +99,11 @@ services:
       - PUID=${Device_UserID}
       - PGID=${Device_GroupID}
     volumes:
-      - /mnt/Drive16/Shows:/tv
-      - /mnt/Drive16/Movies:/movies
+      - /mnt/Drive20/Shows:/tv
+      - /mnt/Drive20/Movies:/movies
       - /home/zach/docker/config/Bazarr:/config
 
-  ### Cloudflare Bypass ###
+  ### --- Cloudflare - Captcha Bypass --- ###
   FlareSolverr:
     image: flaresolverr/flaresolverr:latest
     container_name: FlareSolverr
@@ -102,7 +115,7 @@ services:
       - CAPTCHA_SOLVER=none
       - TZ=${Device_Timezone}
 
-  ### Torrent Management ###
+  ### --- Torrent - Management --- ###
   qBittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qBittorrent
@@ -116,5 +129,5 @@ services:
       - TORRENTING_PORT=${Torrent_Port}
       - DOCKER_MODS=ghcr.io/vuetorrent/vuetorrent-lsio-mod:latest
     volumes:
-      - /mnt/Drive16/Downloads:/downloads
+      - /mnt/Drive20/Downloads:/downloads
       - /home/zach/docker/config/qBittorrent:/config

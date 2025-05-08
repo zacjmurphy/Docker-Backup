@@ -1,27 +1,28 @@
 name: services
 services:
-  ### Plex Media Server ###
-  Plex:
-    image: lscr.io/linuxserver/plex:latest
-    container_name: Plex
+  ### --- Jellyfin - Media Server --- ###
+  Jellyfin:
+    image: jellyfin/jellyfin
+    container_name: Jellyfin
     network_mode: host
     restart: unless-stopped
+    user: 1000:1000
     environment:
-      - VERSION=docker
       - TZ=${Device_Timezone}
-      - PUID=${Device_UserID}
-      - PGID=${Device_GroupID}
-      - PLEX_CLAIM=${Plex_ClaimToken}
+      - JELLYFIN_PublishedServerUrl=${Jellyfin_PublishedServer}
     volumes:
-      - /mnt/Drive16/Shows:/data/tv
-      - /mnt/Drive16/Music:/data/music
-      - /mnt/Drive16/Movies:/data/movies
-      - /home/zach/docker/config/Plex:/config
-      - /mnt/Drive16/Pre-Rolls:/data/pre-rolls
+      - /mnt/Drive20/Shows:/data/tv
+      - /mnt/Drive20/Music:/data/music
+      - /mnt/Drive20/Movies:/data/movies
+      - /mnt/Drive20/Pre-Rolls:/data/pre-rolls
+      - /home/zach/docker/config/Jellyfin:/config
+      - /home/zach/docker/config/Jellyfin-Cache:/cache
+    extra_hosts:
+      - host.docker.internal:host-gateway
     devices:
       - /dev/dri:/dev/dri
 
-  ### Password Manager ###
+  ### --- Open Source - Password Manager --- ###
   VaultWarden:
     image: vaultwarden/server:latest
     container_name: VaultWarden
@@ -39,7 +40,7 @@ services:
     volumes:
       - /home/zach/docker/config/VaultWarden/:/data/
 
-  ### Git Platform ###
+  ### --- Open Source - Git Platform --- ###
   Forgejo:
     image: codeberg.org/forgejo/forgejo:10
     container_name: Forgejo
