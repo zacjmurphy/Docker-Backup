@@ -14,7 +14,6 @@ services:
       - 8989:8989 # Sonarr
       - 7878:7878 # Radarr
       - 6767:6767 # Bazarr
-      - 5055:5055 # Jellyseerr
       - 8191:8191 # FlareSolverr
       - 8080:8080 # qBittorrent (Web UI)
       - 6881:6881 # qBittorrent (Torrent)
@@ -37,9 +36,12 @@ services:
   Jellyseerr:
     image: ghcr.io/fallenbagel/jellyseerr:latest
     container_name: Jellyseerr
-    network_mode: "service:vpn"
+    network_mode: host
     restart: unless-stopped
+    ports:
+      - 5055:5055
     environment:
+      - PORT=5055
       - LOG_LEVEL=debug
       - TZ=${Device_Timezone}
     volumes:
@@ -69,7 +71,7 @@ services:
       - PUID=${Device_UserID}
       - PGID=${Device_GroupID}
     volumes:
-      - /mnt/Drive20/Shows:/tv
+      - /mnt/Drive20/TV Shows:/tv
       - /mnt/Drive20/Downloads:/downloads
       - /home/zach/docker/config/Sonarr:/config
 
@@ -99,7 +101,7 @@ services:
       - PUID=${Device_UserID}
       - PGID=${Device_GroupID}
     volumes:
-      - /mnt/Drive20/Shows:/tv
+      - /mnt/Drive20/TV Shows:/tv
       - /mnt/Drive20/Movies:/movies
       - /home/zach/docker/config/Bazarr:/config
 

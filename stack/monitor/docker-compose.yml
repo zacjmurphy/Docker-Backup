@@ -1,18 +1,5 @@
 name: monitor
 services:
-  ### --- Jellyfin Sync - Update Monitor --- ###
-  JellyPlex-Watched:
-    image: luigi311/jellyplex-watched:latest
-    container_name: JellyPlex-Watched
-    network_mode: bridge
-    restart: unless-stopped
-    environment:
-      - TZ=${Device_Timezone}
-      - PUID=${Device_UserID}
-      - PGID=${Device_GroupID}
-    volumes:
-      - /home/zach/docker/config/JellyPlex-Watched/.env:/app/.env
-
   ### --- Container - Update Monitor --- ###
   WatchTower:
     image: containrrr/watchtower:latest

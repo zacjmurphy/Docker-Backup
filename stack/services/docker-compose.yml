@@ -2,17 +2,18 @@ name: services
 services:
   ### --- Jellyfin - Media Server --- ###
   Jellyfin:
-    image: jellyfin/jellyfin
+    image: lscr.io/linuxserver/jellyfin:latest
     container_name: Jellyfin
     network_mode: host
     restart: unless-stopped
-    user: 1000:1000
     environment:
       - TZ=${Device_Timezone}
+      - PUID=${Device_UserID}
+      - PGID=${Device_GroupID}
       - JELLYFIN_PublishedServerUrl=${Jellyfin_PublishedServer}
     volumes:
-      - /mnt/Drive20/Shows:/data/tv
       - /mnt/Drive20/Music:/data/music
+      - /mnt/Drive20/TV Shows:/data/tv
       - /mnt/Drive20/Movies:/data/movies
       - /mnt/Drive20/Pre-Rolls:/data/pre-rolls
       - /home/zach/docker/config/Jellyfin:/config

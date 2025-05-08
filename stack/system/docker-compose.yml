@@ -16,33 +16,20 @@ services:
       - /home/zach/docker/config/Portainer:/data
       - /var/run/docker.sock:/var/run/docker.sock
 
-  ### --- Docker Stack - Management --- ###
-  Dockge:
-    image: louislam/dockge:1
-    container_name: Dockge
-    network_mode: bridge
-    restart: unless-stopped
-    user: 1000:1000
-    ports:
-      - 5001:5001
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /home/zach/docker/config/Dockge:/app/data
-      - /home/zach/docker/stacks:/home/zach/docker/stacks
-    environment:
-      - "DOCKGE_STACKS_DIR=/home/zach/docker/stacks"
-
   ### --- System - Monitor --- ###
   Glances:
-    image: nicolargo/glances:latest
+    image: nicolargo/glances:ubuntu-latest-full
     container_name: Glances
-    network_mode: bridge
+    network_mode: host
     restart: unless-stopped
+    privileged: true
     pid: host
     ports:
-      - 61208-61209:61208-61209
+      - 61208:61208
+      - 61209:61209
     environment:
-      - GLANCES_OPT="-w"
+      - GLANCES_OPT=-w
+      - TZ=${Device_Timezone}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /run/user/1000/podman/podman.sock:/run/user/1000/podman/podman.sock:ro
