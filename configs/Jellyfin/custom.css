@@ -672,7 +672,7 @@ html,
 
 .itemProgressBar:not(.backgroundProgress, .playbackProgress, .transcodingProgress) {
     backdrop-filter: var(--blurLarge);
-    background-color: rgba(169, 169, 169, .3) !important;
+    background-color: transparent !important;
     height: .35em;
     overflow: hidden;
     border-radius: var(--largeRadius);
@@ -747,12 +747,17 @@ progress+span {
     border-radius: var(--smallRadius);
 }
 
+.itemProgressBarForeground,
 .mdl-slider-background-lower {
-    background-color: var(--uiAccentColor);
+    background-color: var(--uiIconColor);
+}
+
+.sliderBubble {
+    background: var(--uiIconColor);
 }
 
 .mdl-slider::-webkit-slider-thumb {
-    background: var(--uiAccentColor);
+    background: var(--uiIconColor);
 }
 
 .mdl-slider::-webkit-slider-thumb {
@@ -761,7 +766,7 @@ progress+span {
 }
 
 .mdl-slider::-moz-range-thumb {
-    background: var(--uiAccentColor);
+    background: var(--uiIconColor);
 }
 
 .sliderMarkerContainer {
@@ -1652,13 +1657,13 @@ div[data-role=controlgroup] a.ui-btn-active {
     width: 2em;
     height: 2em;
     margin-inline-end: 1em;
-    border: var(--defaultBorder);
+    border: transparent;
 }
 
 .MuiAvatar-circular {
     width: 1.5em;
     height: 1.5em;
-    border: var(--defaultBorder);
+    border: transparent;
 }
 
 .dashboardDocument .content-primary {
