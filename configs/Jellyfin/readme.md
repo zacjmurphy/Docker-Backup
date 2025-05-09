@@ -18,7 +18,7 @@ This is a Jellyfin theme inspired from JellySeerr to improve the overall look an
 <b>Paste the following in Custom CSS code box:</b>
 
 ```
-@import url("https://cdn.jsdelivr.net/gh/zacjmurphy/Docker-Backup@main/configs/Jellyfin/custom.css");
+@import url("https://cdn.jsdelivr.net/gh/zacjmurphy/Docker-Backup@main/configs/Jellyfin/jellyfin-custom.css");
 ```
 
 <details>
